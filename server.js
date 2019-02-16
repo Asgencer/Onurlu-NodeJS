@@ -74,6 +74,13 @@ app.get('/settings', (req, res) => {
         date: today
     });
 });
+app.get('/fordenizayarilladaask', (req, res) => {
+    res.render('gizli', {
+        title: "Stok Sorgulama",
+        user: "Semih Gençer",
+        date: today
+    });
+});
 
 app.set('view engine', 'pug');
 
