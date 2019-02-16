@@ -85,8 +85,8 @@ MongoClient.connect(db.url, (err, client) => {
         return console.log(err);
     }
     require('./app/routes')(app, db);
-    app.listen(port, () => {
-        console.log("we are live on : " + port);
-    });
+    app.listen(process.env.PORT || 4000, function(){
+    console.log('Your node js server is running');
+});
 
 });
