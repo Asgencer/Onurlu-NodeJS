@@ -24,11 +24,23 @@ function createDate() {
 }
 
 router.get('/homepage', function(req, res, next){
-  return res.render('index', {
-    title: "Ana Sayfa",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('index', {
+        title: "Ana Sayfa",
+        user: fullname,
+        date: today
+      });
+    });
 });
 
 router.post('/register', function(req, res, next){
@@ -95,48 +107,120 @@ router.post('/', function (req, res, next){
 });
 
 router.get('/stocks', function (req, res, next) {
-  return res.render('stocks', {
-    title: "Stok Sorgulama",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('stocks', {
+        title: "Stok Sorgulama",
+        user: fullname,
+        date: today
+      });
+    });
 });
 
 router.get('/price', function (req, res, next) {
-  return res.render('price', {
-    title: "Fiyat Hesaplama",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('price', {
+        title: "Fiyat Sorgulama",
+        user: fullname,
+        date: today
+      });
+    });
 });
 
 router.get('/delivery', function (req, res, next) {
-  return res.render('delivery', {
-    title: "Teslimatlar",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('delivery', {
+        title: "Teslimatlar",
+        user: fullname,
+        date: today
+      });
+    });
 });
 router.get('/orders', function (req, res, next) {
-  return res.render('orders', {
-    title: "Siparişler",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('orders', {
+        title: "Siparişler",
+        user: fullname,
+        date: today
+      });
+    });
 });
 router.get('/administration', function (req, res, next) {
-  return res.render('administration', {
-    title: "Yönetim",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('administration', {
+        title: "Yönetim",
+        user: fullname,
+        date: today
+      });
+    });
 });
 router.get('/settings', function (req, res, next) {
-  return res.render('settings', {
-    title: "Ayarlar",
-    user: user.name,
-    date: today
-  });
+  if(!req.session.userId) {
+    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
+    err.status = 403;
+    return next(err);
+  }
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
+      }
+      var fullname = user.name + " " + user.surname;
+      return res.render('settings', {
+        title: "Ayarlar",
+        user: fullname,
+        date: today
+      });
+    });
 });
 
 module.exports = router;
