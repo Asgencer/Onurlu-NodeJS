@@ -5,6 +5,7 @@ const app = express();
 const port = 8001;
 var db = require('./app/config/db');
 var today = createDate();
+var user = {name: "Semih Gençer"};
 
 function createDate() {
     var today = new Date();
@@ -27,57 +28,50 @@ function createDate() {
 app.get('/', (req, res) => {
     res.render('index', {
         title: "Ana Sayfa",
-        user: "Semih Gençer",
+        user: user.name,
         date: today
     });
 });
 app.get('/stocks', (req, res) => {
     res.render('stocks', {
         title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        user: user.name,
         date: today
     });
 });
 app.get('/price', (req, res) => {
     res.render('price', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        title: "Fiyat Hesaplama",
+        user: user.name,
         date: today
     });
 });
 
 app.get('/delivery', (req, res) => {
     res.render('delivery', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        title: "Teslimatlar",
+        user: user.name,
         date: today
     });
 });
 app.get('/orders', (req, res) => {
     res.render('orders', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        title: "Siparişler",
+        user: user.name,
         date: today
     });
 });
 app.get('/administration', (req, res) => {
     res.render('administration', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        title: "Yönetim",
+        user: user.name,
         date: today
     });
 });
 app.get('/settings', (req, res) => {
     res.render('settings', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
-        date: today
-    });
-});
-app.get('/fordenizayarilladaask', (req, res) => {
-    res.render('gizli', {
-        title: "Stok Sorgulama",
-        user: "Semih Gençer",
+        title: "Ayarlar",
+        user: user.name,
         date: today
     });
 });
