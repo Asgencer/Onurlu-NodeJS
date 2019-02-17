@@ -1,93 +1,58 @@
 /*jshint esversion: 6 */
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
+var bodyParser = require('body-parser');
+var session = require('express-session');
+// const MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 const app = express();
-const port = 8001;
-var db = require('./app/config/db');
-var today = createDate();
-var user = {name: "Semih Gençer"};
+var database = require('./app/config/db');
 
-function createDate() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
+app.use(session({
+    secret:'asgencer knows how to code',
+    resave: true,
+    saveUninitialized:false
+}));
 
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    today = dd + '/' + mm + '/' + yyyy;
-    return today;
-}
+mongoose.connect(database.url, {useNewUrlParser: true});
+var db = mongoose.connection;
 
+db.on('error', console.error.bind(console, 'connection error:'));
 
-
-app.get('/', (req, res) => {
-    res.render('index', {
-        title: "Ana Sayfa",
-        user: user.name,
-        date: today
-    });
-});
-app.get('/stocks', (req, res) => {
-    res.render('stocks', {
-        title: "Stok Sorgulama",
-        user: user.name,
-        date: today
-    });
-});
-app.get('/price', (req, res) => {
-    res.render('price', {
-        title: "Fiyat Hesaplama",
-        user: user.name,
-        date: today
-    });
-});
-
-app.get('/delivery', (req, res) => {
-    res.render('delivery', {
-        title: "Teslimatlar",
-        user: user.name,
-        date: today
-    });
-});
-app.get('/orders', (req, res) => {
-    res.render('orders', {
-        title: "Siparişler",
-        user: user.name,
-        date: today
-    });
-});
-app.get('/administration', (req, res) => {
-    res.render('administration', {
-        title: "Yönetim",
-        user: user.name,
-        date: today
-    });
-});
-app.get('/settings', (req, res) => {
-    res.render('settings', {
-        title: "Ayarlar",
-        user: user.name,
-        date: today
-    });
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('view engine', 'pug');
 
 app.use(express.static(__dirname + '/public'));
 
-MongoClient.connect(db.url, (err, client) => {
-    var db = client.db('onurludenetim');
-    if (err) {
-        return console.log(err);
-    }
-    require('./app/routes')(app, db);
-    app.listen(process.env.PORT || 4000, function(){
+var routes = require('./app/routes/index');
+app.use('/', routes);
+
+app.use(function(req,res,next){
+    var err = new Error('Dosya Bulunamadı');
+    err.status = 404;
+    next(err);
+});
+
+app.use(function(err,req,res,next){
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+
+app.listen(process.env.PORT || 4000, function(){
     console.log('Your node js server is running');
 });
 
-});
+// MongoClient.connect(db.url, (err, client) => {
+//     var db = client.db('onurludenetim');
+//     if (err) {
+//         return console.log(err);
+//     }
+//     require('./app/routes')(app, db);
+//     app.listen(process.env.PORT || 4000, function(){
+//     console.log('Your node js server is running');
+// });
+// });

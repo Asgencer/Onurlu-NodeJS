@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Bosch Onurlu
+    title Bosch Onurlu - #{title}
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
@@ -24,7 +24,7 @@ html
           b #{user}
         p.w3-text-grey #{date}
       .w3-bar-block
-        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/homepage', onclick='w3_close()')
           i.fa.fa-th-large.fa-fw.w3-margin-right
           | Ana Sayfa
         a.w3-bar-item.w3-button.w3-padding(href='/stocks', onclick='w3_close()')
