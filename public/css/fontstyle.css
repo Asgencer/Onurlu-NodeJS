@@ -1,8 +1,0 @@
-
-@font-face {
-    font-family: 'boschsansregular';
-    src: url('./fonts/boschsans-regular-webfont.woff2') format('woff2'),
-         url('./fonts/boschsans-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
