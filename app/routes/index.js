@@ -2,10 +2,8 @@
 var express = require('express');
 var router = express.Router();
 var today = createDate();
-var user = {
-  name: "Semih Gençer"
-};
-var registeredUser = require('../../modals/user');
+var mid = require('../middleware/index');
+var registeredUser = require('../modals/user');
 
 function createDate() {
   var today = new Date();
@@ -23,12 +21,7 @@ function createDate() {
   return today;
 }
 
-router.get('/homepage', function(req, res, next){
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/homepage', mid.requiresLogin, function(req, res, next){
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -64,6 +57,7 @@ router.post('/register', function(req, res, next){
         return next(error);
       }
       else {
+        req.session.userId = user._id;
         return res.redirect('/homepage');
       }
     });
@@ -75,7 +69,20 @@ router.post('/register', function(req, res, next){
   }
 });
 
-router.get('/', function (req, res, next) {
+router.get('/logout', function (req, res, next){
+  if(req.session){
+    req.session.destroy(function(err){
+      if(err){
+        return next(err);
+      }
+      else {
+        return res.redirect('/');
+      }
+    });
+  }
+});
+
+router.get('/', mid.loggedOut, function (req, res, next) {
   return res.render('login', {
     title: "Bosch Onurlu Takip Sistemi",
     date: today
@@ -106,12 +113,8 @@ router.post('/', function (req, res, next){
   }
 });
 
-router.get('/stocks', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/stocks', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -126,12 +129,8 @@ router.get('/stocks', function (req, res, next) {
     });
 });
 
-router.get('/price', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/price', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -146,12 +145,8 @@ router.get('/price', function (req, res, next) {
     });
 });
 
-router.get('/delivery', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/delivery', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -165,12 +160,8 @@ router.get('/delivery', function (req, res, next) {
       });
     });
 });
-router.get('/orders', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/orders', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -184,12 +175,8 @@ router.get('/orders', function (req, res, next) {
       });
     });
 });
-router.get('/administration', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/administration', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){
@@ -203,12 +190,8 @@ router.get('/administration', function (req, res, next) {
       });
     });
 });
-router.get('/settings', function (req, res, next) {
-  if(!req.session.userId) {
-    var err = new Error('Bu sayfayı görme izniniz yok. Lütfen giriş yapın veya oturum açın.');
-    err.status = 403;
-    return next(err);
-  }
+router.get('/settings', mid.requiresLogin, function (req, res, next) {
+  
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){

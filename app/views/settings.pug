@@ -7,6 +7,9 @@ html
     link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
     link(rel='stylesheet', href= '../public/css/fontstyle.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
     link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous")
     style.
       body,h1,h2,h3,h4,h5,h6 {font-family: "boschsansregular", sans-serif}
@@ -30,7 +33,7 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/stocks', onclick='w3_close()')
           i.fa.fa-warehouse.fa-fw.w3-margin-right
           | Stok Sorgulama
-        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/price', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding(href='/price', onclick='w3_close()')
           i.fa.fa-money-bill-alt.fa-fw.w3-margin-right
           | Fiyat Hesaplama
         a.w3-bar-item.w3-button.w3-padding(href='/delivery', onclick='w3_close()')
@@ -42,9 +45,12 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/administration', onclick='w3_close()')
           i.fa.fa-tools.fa-fw.w3-margin-right
           | Yönetim
-        a.w3-bar-item.w3-button.w3-padding(href='/settings', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/settings', onclick='w3_close()')
           i.fa.fa-cog.fa-fw.w3-margin-right
           | Ayarlar
+        a.w3-bar-item.w3-button.w3-padding(href='/logout', onclick='w3_close()')
+          i.fas.fa-sign-out-alt.fa-fw.w3-margin-right
+          | Çıkış Yap
       .w3-panel.w3-large
         p.w3-text-grey.w3(style="font-size:10px")
           i.fa.fa-copyright.w3-padding

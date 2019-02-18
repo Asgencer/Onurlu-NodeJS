@@ -33,7 +33,7 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/price', onclick='w3_close()')
           i.fa.fa-money-bill-alt.fa-fw.w3-margin-right
           | Fiyat Hesaplama
-        a.w3-bar-item.w3-button.w3-padding(href='/delivery', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/delivery', onclick='w3_close()')
           i.fa.fa-truck.fa-fw.w3-margin-right
           | Teslimatlar
         a.w3-bar-item.w3-button.w3-padding(href='/orders', onclick='w3_close()')
@@ -42,9 +42,12 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/administration', onclick='w3_close()')
           i.fa.fa-tools.fa-fw.w3-margin-right
           | Yönetim
-        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/settings', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding(href='/settings', onclick='w3_close()')
           i.fa.fa-cog.fa-fw.w3-margin-right
           | Ayarlar
+        a.w3-bar-item.w3-button.w3-padding(href='/logout', onclick='w3_close()')
+          i.fas.fa-sign-out-alt.fa-fw.w3-margin-right
+          | Çıkış Yap
       .w3-panel.w3-large
         p.w3-text-grey.w3(style="font-size:10px")
           i.fa.fa-copyright.w3-padding
@@ -55,7 +58,7 @@ html
     .w3-main(style='margin-left:300px')
       // Header
       header#homepage
-        a(href='/homepage')
+        a(href='#')
           img.w3-circle.w3-right.w3-margin.w3-hide-large.w3-hover-opacity(src='/w3images/avatar_g2.jpg', style='width:65px;')
         span.w3-button.w3-hide-large.w3-xxlarge.w3-hover-text-grey(onclick='w3_open()')
           i.fa.fa-bars

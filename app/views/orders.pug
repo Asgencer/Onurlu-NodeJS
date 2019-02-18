@@ -27,7 +27,7 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/homepage', onclick='w3_close()')
           i.fa.fa-th-large.fa-fw.w3-margin-right
           | Ana Sayfa
-        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/stocks', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding(href='/stocks', onclick='w3_close()')
           i.fa.fa-warehouse.fa-fw.w3-margin-right
           | Stok Sorgulama
         a.w3-bar-item.w3-button.w3-padding(href='/price', onclick='w3_close()')
@@ -36,7 +36,7 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/delivery', onclick='w3_close()')
           i.fa.fa-truck.fa-fw.w3-margin-right
           | Teslimatlar
-        a.w3-bar-item.w3-button.w3-padding(href='/orders', onclick='w3_close()')
+        a.w3-bar-item.w3-button.w3-padding.w3-text-red(href='/orders', onclick='w3_close()')
           i.fa.fa-list-ol.fa-fw.w3-margin-right
           | Sipariş
         a.w3-bar-item.w3-button.w3-padding(href='/administration', onclick='w3_close()')
@@ -45,6 +45,9 @@ html
         a.w3-bar-item.w3-button.w3-padding(href='/settings', onclick='w3_close()')
           i.fa.fa-cog.fa-fw.w3-margin-right
           | Ayarlar
+        a.w3-bar-item.w3-button.w3-padding(href='/logout', onclick='w3_close()')
+          i.fas.fa-sign-out-alt.fa-fw.w3-margin-right
+          | Çıkış Yap
       .w3-panel.w3-large
         p.w3-text-grey.w3(style="font-size:10px")
           i.fa.fa-copyright.w3-padding

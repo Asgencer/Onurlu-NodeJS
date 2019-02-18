@@ -13,6 +13,11 @@ app.use(session({
     saveUninitialized:false
 }));
 
+app.use(function (req, res, next){
+    res.locals.currentUser = req.session.userId;
+    next();
+});
+
 mongoose.connect(database.url, {useNewUrlParser: true});
 var db = mongoose.connection;
 
@@ -22,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.set('view engine', 'pug');
+app.set('views', __dirname + '/app/views');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -38,6 +44,7 @@ app.use(function(err,req,res,next){
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
+        status: err.status,
         error: {}
     });
 });
@@ -45,14 +52,3 @@ app.use(function(err,req,res,next){
 app.listen(process.env.PORT || 4000, function(){
     console.log('Your node js server is running');
 });
-
-// MongoClient.connect(db.url, (err, client) => {
-//     var db = client.db('onurludenetim');
-//     if (err) {
-//         return console.log(err);
-//     }
-//     require('./app/routes')(app, db);
-//     app.listen(process.env.PORT || 4000, function(){
-//     console.log('Your node js server is running');
-// });
-// });
