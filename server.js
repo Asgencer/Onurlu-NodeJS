@@ -4,22 +4,26 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 // const MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
+var mongoStore = require('connect-mongo')(session);
 const app = express();
 var database = require('./app/config/db');
+
+mongoose.connect(database.url, {useNewUrlParser: true});
+var db = mongoose.connection;
 
 app.use(session({
     secret:'asgencer knows how to code',
     resave: true,
-    saveUninitialized:false
+    saveUninitialized:false,
+    store: new mongoStore({
+        mongooseConnection: db
+    })
 }));
 
 app.use(function (req, res, next){
     res.locals.currentUser = req.session.userId;
     next();
 });
-
-mongoose.connect(database.url, {useNewUrlParser: true});
-var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
