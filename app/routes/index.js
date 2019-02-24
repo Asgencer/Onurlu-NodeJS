@@ -63,9 +63,9 @@ router.post('/register', function(req, res, next){
     });
   }
   else {
-    var err = new Error('Tüm alanları doldurunuz.');
-    err.status = 400;
-    return next(err);
+    var error = new Error('Tüm alanları doldurunuz.');
+    error.status = 400;
+    return next(error);
   }
 });
 
