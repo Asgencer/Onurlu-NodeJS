@@ -4,12 +4,21 @@ html
     title Bosch Onurlu - #{title}
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
     link(rel='stylesheet', href= '../public/css/fontstyle.css')
     link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous")
     style.
       body,h1,h2,h3,h4,h5,h6 {font-family: "boschsansregular", sans-serif}
+      span.money-input {
+      float: left;
+      text-align: left;
+      }
+
+      span.money-input input {
+      width: 280px !important;
+      }
   body.w3-light-grey.w3-content(style='max-width:1600px')
     // Sidebar/menu
     nav#mySidebar.w3-sidebar.w3-collapse.w3-white.w3-animate-left(style='z-index:3;width:300px;')
@@ -78,6 +87,97 @@ html
             //-   i.fa.fa-map-pin.w3-margin-right
             //-   | Art
       // First Photo Grid
+      .w3-container
+        .w3-container.w3-twothird.w3-margin-bottom
+          input.w3-input.w3-border.w3-animate-input(type='text', style='width:30%', placeholder="Ürün Kodu")
+        .w3-container.w3-third.w3-margin-bottom
+          button.w3-btn.w3-block.w3-red.w3-ripple Ekle
+      .w3-section.w3-bottombar.w3-padding-16
+      .w3-container.w3-panel
+        .w3-panel
+          table.w3-table-all.w3-hoverable
+            thead
+              tr.w3-red
+                th(colspan="5") Ürün Kodu
+                th(colspan="5") Ürün Tipi
+                th(colspan="1") Adet
+                th(colspan="1") Tutar
+            tbody
+              tr
+                td(colspan="5") KGN57AW25N
+                td(colspan="5") Buzdolabı
+                td(colspan="1") 1
+                td.price(colspan="1") ₺ 4325,00
+              tr
+                td(colspan="5") KGN57AW24N
+                td(colspan="5") Buzdolabı
+                td(colspan="1") 1
+                td.price(colspan="1") ₺ 4300,00
+              tr
+                td(colspan="5") KGN57PI26N
+                td(colspan="5") Buzdolabı
+                td(colspan="1") 1
+                td.price(colspan="1") ₺ 4500,00
+      .w3-section.w3-bottombar.w3-padding-16
+      .w3-container.w3-row
+        .w3-third
+          p
+            input#pesinCB.w3-check(type='checkbox')
+            label Peşin
+        .w3-twothird
+          p
+            span.money-input
+              input#pesinTF.w3-input.w3-border(type="number", min="0.00", step="0.01", placeholder="Tutar", disabled)
+      .w3-container.w3-row
+        .w3-third
+          p
+            input#kartCB.w3-check(type='checkbox')
+            label Kredi Kartı
+        .w3-twothird
+          .w3-third
+            p
+            select#kartDD.w3-select(name='option' disabled)
+              option(value='', disabled='', selected='') Kart Seçiniz
+              option(value='1') Bonus
+              option(value='2') World
+              option(value='3') Maximum
+              option(value='4') CardFinans
+              option(value='5') Advantage
+              option(value='6') Paraf
+              option(value='7') Combo
+          .w3-quarter.w3-container
+            p
+            select#taksitDD.w3-select(name='option', disabled)
+              option(value='', disabled='', selected='') Taksit Sayısı
+              option(value='1') 1
+              option(value='2') 2
+              option(value='3') 3
+              option(value='4') 4
+              option(value='5') 5
+              option(value='6') 6
+              option(value='7') 7
+              option(value='8') 8
+              option(value='9') 9
+              option(value='10') 10
+              option(value='11') 11
+              option(value='12') 12
+          .w3-third.w3-container
+            p
+            span.money-input
+              input#kartTF.w3-input.w3-border(type='text', placeholder="Tutar", disabled)
+      .w3-container.w3-row
+        .w3-third
+          p
+            input#tebCB.w3-check(type='checkbox')
+            label Teb Kredi
+        .w3-twothird
+          p
+          span.money-input(style='width:70%')
+            input#tebTF.w3-input.w3-border(type='text', placeholder="Tutar", disabled)
+              
+
+            
+            
       //- .w3-row-padding
       //-   .w3-third.w3-container.w3-margin-bottom
       //-     img.w3-hover-opacity(src='/w3images/mountains.jpg', alt='Norway', style='width:100%')
@@ -284,3 +384,34 @@ html
       document.getElementById("mySidebar").style.display = "none";
       document.getElementById("myOverlay").style.display = "none";
       }
+      document.getElementById("pesinCB").onchange = function() {
+        document.getElementById("pesinTF").disabled = !this.checked;
+      };
+      document.getElementById("kartCB").onchange = function() {
+        document.getElementById("kartTF").disabled = !this.checked;
+        document.getElementById("kartDD").disabled = !this.checked;
+        document.getElementById("taksitDD").disabled = !this.checked;
+      };
+      document.getElementById("tebCB").onchange = function() {
+        document.getElementById("tebTF").disabled = !this.checked;
+      };
+      function calculateSum() {
+        var sum = 0;
+        // iterate through each td based on class and add the values
+        $(".price").each(function() {
+          var value = $(this).text();
+          // add only if the value is number
+          if(value.length != 0) {
+            value = value.replace('₺ ','');
+            value = value.replace(',00','');
+            sum += parseFloat(value);
+          }
+          console.log(sum);
+        });
+      }
+      $(document).ready(function(){
+        $('.price').each(function() {
+          calculateSum();
+        });
+      });
+      
