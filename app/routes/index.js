@@ -4,6 +4,8 @@ var router = express.Router();
 var today = createDate();
 var mid = require('../middleware/index');
 var registeredUser = require('../modals/user');
+var targetModel = require('../modals/target');
+var announcementModel = require('../modals/announcement');
 
 function createDate() {
   var today = new Date();
@@ -28,10 +30,16 @@ router.get('/homepage', mid.requiresLogin, function(req, res, next){
         return next(error);
       }
       var fullname = user.name + " " + user.surname;
-      return res.render('index', {
-        title: "Ana Sayfa",
-        user: fullname,
-        date: today
+      targetModel.findOne().exec(function(err,target){
+        announcementModel.find({}).lean().exec(function (err,announcements){
+          return res.render('index', {
+            title: "Ana Sayfa",
+            user: fullname,
+            date: today,
+            targets: target,
+            announcementList : announcements
+          });
+        });
       });
     });
 });

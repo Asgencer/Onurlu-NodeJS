@@ -87,10 +87,9 @@ html
         .w3-third.w3-container.w3-margin-bottom(style="height:750")
           h3
             b Duyurular
-          .w3-panel.w3-light-grey.w3-card-4
-            p Duyuru 1
-          .w3-panel.w3-light-gray.w3-card-4
-            p Duyuru 2
+          each i in announcementList
+            .w3-panel.w3-light-gray.w3-card-4
+              p #{i.body}
       .w3-section.w3-bottombar.w3-padding-16
       .w3-container
         .w3-container.w3-half
@@ -102,7 +101,7 @@ html
       function w3_open() {
       document.getElementById("mySidebar").style.display = "block";
       document.getElementById("myOverlay").style.display = "block";
-      }
+      } 
       function w3_close() {
       document.getElementById("mySidebar").style.display = "none";
       document.getElementById("myOverlay").style.display = "none";
@@ -110,17 +109,17 @@ html
       new Chart(document.getElementById("bar-chart-grouped"), {
       type: 'bar',
       data: {
-      labels: ["Solo LDA", "Solo MDA", "CP1", "CP2", "Ankastre LDA", "Ankastre MDA"],
+      labels: ["Solo LDA", "Solo MDA", "Ankastre LDA", "Ankastre MDA", "CP1", "CP2", "Ütü", "Süpürge"],
       datasets: [
         {
         label: "Öngörülen (adet)",
         backgroundColor: "#DF1616",
-        data: [35,12,16,15,3,4]
+        data: [ #{targets.sololda},#{targets.solomda},#{targets.ankastrelda},#{targets.ankastremda},#{targets.cp1},#{targets.cp2},#{targets.iron},#{targets.vcleaner}]
         },
         {
         label: "Güncel (adet)",
         backgroundColor: "#2CC400",
-        data: [32,10,12,14,12,10]
+        data: [32,10,12,14,12,7,2,4]
         }]
       },
       options: {
