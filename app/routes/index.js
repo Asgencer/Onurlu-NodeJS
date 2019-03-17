@@ -6,6 +6,8 @@ var mid = require('../middleware/index');
 var registeredUser = require('../modals/user');
 var targetModel = require('../modals/target');
 var announcementModel = require('../modals/announcement');
+var stockListModel = require('../modals/stock');
+var db = require('../config/db')
 
 function createDate() {
   var today = new Date();
@@ -23,6 +25,26 @@ function createDate() {
   return today;
 }
 
+router.get('/getStocks', function(req, res, next) {
+  var search = req.query.id;
+  var regexValue = '^' + search;
+  var queryOptions = {
+      productCode: {
+        '$regex' : regexValue,
+        '$options' : 'i' 
+      }
+  }
+  stockListModel.find(queryOptions, function(err, data) {
+    if(err){            
+      console.log(err);
+    }
+    var stringify = JSON.stringify(data)
+    console.log(data);
+
+    return res.json(data);
+  });
+});
+
 router.get('/homepage', mid.requiresLogin, function(req, res, next){
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
@@ -37,7 +59,8 @@ router.get('/homepage', mid.requiresLogin, function(req, res, next){
             user: fullname,
             date: today,
             targets: target,
-            announcementList : announcements
+            announcementList : announcements,
+            db: db.url
           });
         });
       });
@@ -132,7 +155,8 @@ router.get('/stocks', mid.requiresLogin, function (req, res, next) {
       return res.render('stocks', {
         title: "Stok Sorgulama",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
@@ -148,7 +172,8 @@ router.get('/price', mid.requiresLogin, function (req, res, next) {
       return res.render('price', {
         title: "Fiyat Sorgulama",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
@@ -164,7 +189,8 @@ router.get('/delivery', mid.requiresLogin, function (req, res, next) {
       return res.render('delivery', {
         title: "Teslimatlar",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
@@ -179,7 +205,8 @@ router.get('/orders', mid.requiresLogin, function (req, res, next) {
       return res.render('orders', {
         title: "Siparişler",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
@@ -194,7 +221,8 @@ router.get('/administration', mid.requiresLogin, function (req, res, next) {
       return res.render('administration', {
         title: "Yönetim",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
@@ -209,7 +237,8 @@ router.get('/settings', mid.requiresLogin, function (req, res, next) {
       return res.render('settings', {
         title: "Ayarlar",
         user: fullname,
-        date: today
+        date: today,
+        db: db.url
       });
     });
 });
