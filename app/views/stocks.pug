@@ -295,6 +295,7 @@ html
       // End page content
     script.
       $('#searchButton').click(function(){
+        $('#product_body').empty();
         var search =  $('#productCode').val();
         console.log(search);
         $.ajax({
@@ -309,7 +310,6 @@ html
                $('#product_body').append("<tr><td colspan = 12>Ürün Bulunamadı</td></tr>")
              }
              else {
-                $('#product_body').empty();
                 var colourText = "style = 'color: #05C829;'";
                for(var i = 0 ; i < data.length ; i++){
                  if(data[i].total == 0) {
