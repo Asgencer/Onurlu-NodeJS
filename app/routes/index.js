@@ -26,23 +26,29 @@ function createDate() {
 }
 
 router.get('/getStocks', mid.requiresLogin, function(req, res, next) {
-  var search = req.query.id;
-  var regexValue = '^' + search;
-  var queryOptions = {
-      productCode: {
-        '$regex' : regexValue,
-        '$options' : 'i' 
+  registeredUser.findById(req.session.userId)
+    .exec(function (error, user){
+      if(error){
+        return next(error);
       }
-  }
-  stockListModel.find(queryOptions, function(err, data) {
-    if(err){            
-      console.log(err);
-    }
-    var stringify = JSON.stringify(data)
-    console.log(data);
-
-    return res.json(data);
-  });
+      var search = req.query.id;
+      var regexValue = '^' + search;
+      var queryOptions = {
+        productCode: {
+          '$regex' : regexValue,
+          '$options' : 'i' 
+        }
+      }
+      stockListModel.find(queryOptions, function(err, data) {
+        if(err){            
+          console.log(err);
+        }
+        var stringify = JSON.stringify(data)
+        console.log(data);
+    
+        return res.json(data);
+      });
+    });
 });
 
 router.get('/homepage', mid.requiresLogin, function(req, res, next){
