@@ -25,7 +25,7 @@ function createDate() {
   return today;
 }
 
-router.get('/getStocks', function(req, res, next) {
+router.get('/getStocks', mid.requiresLogin, function(req, res, next) {
   var search = req.query.id;
   var regexValue = '^' + search;
   var queryOptions = {
