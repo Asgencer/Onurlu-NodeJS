@@ -310,8 +310,9 @@ html
                $('#product_body').append("<tr><td colspan = 12>Ürün Bulunamadı</td></tr>")
              }
              else {
-                var colourText = "style = 'color: #05C829;'";
+                
                for(var i = 0 ; i < data.length ; i++){
+                 var colourText = "style = 'color: #05C829;'";
                  if(data[i].total == 0) {
                    var colourText = "style = 'color: #FF0404'";
                  }
