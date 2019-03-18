@@ -30,8 +30,10 @@ router.get('/homepage', mid.requiresLogin, function(req, res, next){
         return next(error);
       }
       var fullname = user.name + " " + user.surname;
-      targetModel.findOne().exec(function(err,target){
+      var date = today[3] + today[4] + "/" + today[6] + today[7] + today[8] + today[9];
+      targetModel.findOne({"date" : date}).exec(function(err,target){
         announcementModel.find({}).lean().exec(function (err,announcements){
+          console.log(target);
           return res.render('index', {
             title: "Ana Sayfa",
             user: fullname,
@@ -42,6 +44,52 @@ router.get('/homepage', mid.requiresLogin, function(req, res, next){
         });
       });
     });
+});
+
+router.get('/getAllAnnouncements', function (req, res, next) {
+  announcementModel.find({}).lean().exec(function (err,announcements){
+    if(err){
+      return next(err);
+    }
+    return res.send(announcements);
+  });
+})
+
+router.post('/createAnnouncement', function(req,res,next) {
+  var announcementData = {
+    header: req.body.header,
+    body: req.body.body
+  };
+
+  announcementModel.create(announcementData, function(err, announcement) {
+    if(err){
+      console.log(err);
+      return next(err);
+    }
+    return (res.send(announcement));
+  });
+});
+
+router.post('/createtargets', function(req,res,next) {
+  var targetData = {
+    date: req.body.date,
+    sololda: req.body.sololda,
+    solomda: req.body.solomda,
+    ankastrelda: req.body.ankastrelda,
+    ankastremda: req.body.ankastremda,
+    cp1: req.body.cp1,
+    cp2: req.body.cp2,
+    iron: req.body.iron,
+    vcleaner: req.body.vcleaner
+  };
+
+  targetModel.create(targetData, function(err, target) {
+    if(err){
+      console.log(err);
+      return next(err);
+    }
+    return (res.send(target));
+  });
 });
 
 router.post('/register', function(req, res, next){

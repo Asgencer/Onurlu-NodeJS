@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
 var targetSchema = mongoose.Schema({
+    date: {
+        type: String,
+        required: true,
+        trim: true
+    },
     sololda: {
         type: Number,
         required: true,
