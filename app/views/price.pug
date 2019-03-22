@@ -6,20 +6,70 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Raleway')
-    link(rel='stylesheet', href= '../public/css/fontstyle.css')
     link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous")
     style.
       body,h1,h2,h3,h4,h5,h6 {font-family: "boschsansregular", sans-serif}
       span.money-input {
-      float: left;
-      text-align: left;
+        float: left;
+        text-align: left;
       }
-
       span.money-input input {
-      width: 280px !important;
+        width: 280px !important;
+      }
+      .selected {
+        background-color: #000000;
+        color: red;
+      }
+      #overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 5;
+      }
+      #loading{
+        height: 200px;
+        width: 200px;
+        margin-left: 45%;
+        margin-top: 17%;
+        z-index: 200;
+        background-color: rgba(255,255,255,1);
+      }
+      #alert{
+        height: 33%;
+        width: 50%;
+        margin-left: 25%;
+        margin-top: 17%;
+      }
+      .coloured{
+        color: red;
+      }
+      .ok {
+        margin-top: 40px;
+        width: 33%;
+        margin-left: 35%;
       }
   body.w3-light-grey.w3-content(style='max-width:1600px')
+    #overlay
+      #loading
+        img(src='/css/images/loading.gif')
+      #alert
+        table#table.w3-table-all.w3-hoverable
+          thead
+            tr.w3-red
+              th(colspan="5") Ürün Kodu
+              th(colspan="5") Ürün Tipi
+              th(colspan="1") Tutar
+          tbody#alertTable
+        input#tst.ok.w3-btn.w3-block.w3-red.w3-ripple(type='button', value='Tamam', onclick='off()')
+              
     // Sidebar/menu
     nav#mySidebar.w3-sidebar.w3-collapse.w3-white.w3-animate-left(style='z-index:3;width:300px;')
       br
@@ -67,7 +117,7 @@ html
     .w3-main(style='margin-left:300px')
       // Header
       header#homepage
-        a(href='/homepage')
+        //a(href='/homepage')
           img.w3-circle.w3-right.w3-margin.w3-hide-large.w3-hover-opacity(src='/w3images/avatar_g2.jpg', style='width:65px;')
         span.w3-button.w3-hide-large.w3-xxlarge.w3-hover-text-grey(onclick='w3_open()')
           i.fa.fa-bars
@@ -89,9 +139,9 @@ html
       // First Photo Grid
       .w3-container
         .w3-container.w3-twothird.w3-margin-bottom
-          input.w3-input.w3-border.w3-animate-input(type='text', style='width:30%', placeholder="Ürün Kodu")
+          input#productCode.w3-input.w3-border.w3-animate-input(type='text', style='width:30%', placeholder="Ürün Kodu")
         .w3-container.w3-third.w3-margin-bottom
-          button.w3-btn.w3-block.w3-red.w3-ripple Ekle
+          button#searchButton.w3-btn.w3-block.w3-red.w3-ripple Ekle
       .w3-section.w3-bottombar.w3-padding-16
       .w3-container.w3-panel
         .w3-panel
@@ -100,24 +150,9 @@ html
               tr.w3-red
                 th(colspan="5") Ürün Kodu
                 th(colspan="5") Ürün Tipi
-                th(colspan="1") Adet
                 th(colspan="1") Tutar
-            tbody
-              tr
-                td(colspan="5") KGN57AW25N
-                td(colspan="5") Buzdolabı
-                td(colspan="1") 1
-                td.price(colspan="1") ₺ 4325,00
-              tr
-                td(colspan="5") KGN57AW24N
-                td(colspan="5") Buzdolabı
-                td(colspan="1") 1
-                td.price(colspan="1") ₺ 4300,00
-              tr
-                td(colspan="5") KGN57PI26N
-                td(colspan="5") Buzdolabı
-                td(colspan="1") 1
-                td.price(colspan="1") ₺ 4500,00
+                th(colspan="1") İndirim Sonrası Tutar
+            tbody#productBody
       .w3-section.w3-bottombar.w3-padding-16
       .w3-container.w3-row
         .w3-third
@@ -375,6 +410,57 @@ html
       //-   a.w3-hover-opacity(href='https://www.w3schools.com/w3css/default.asp', title='W3.CSS', target='_blank') w3.css
       // End page content
     script.
+      var selectedPrice = -1;
+      $('#searchButton').click(function(){
+        $('#alert').hide();
+        $('#alertTable').empty();
+        on();
+        $("#loading").show();
+        var search =  $('#productCode').val();
+        console.log(search);
+        $.ajax({
+          url: 'http://boschonurlu.herokuapp.com/getStocks',
+          type: 'get',
+          data: jQuery.param({id: search}),
+          dataType: 'json',
+          contentType:"application/json; charset=utf-8"                                                                         
+        })
+        .done(function(data) {
+          if(data[0] == null) {
+            $('#alertTable').append("<tr><td colspan = 12>Ürün Bulunamadı</td></tr>")
+          }
+          else { 
+            for(var i = 0 ; i < data.length ; i++){
+              $('#alertTable').append("<tr><td colspan = 5>"+data[i].productCode+"</td>"+"<td colspan = 5>"+data[i].type+"</td>"+"<td colspan = 1>₺ "+data[i].cPrice+"</tr>")  
+            }
+          }
+          $("#table tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var $tr = $(this).closest('tr');    
+            var value=$(this).find('td:first').html();
+            var myRow = $("#table tr").index($tr);
+            selectedPrice = data[myRow-1].basePrice
+          });
+          
+          $("#loading").hide();
+          $('#alert').show();
+        })
+        .fail(function(request,status,error) {
+          $("code").text("get failed: "+error).css("color","red");
+        })
+        .always(function() {
+          console.log("finished")
+        })
+      });
+      $('.ok').on('click', function(e){
+            if(selectedPrice == -1){
+              return;
+            }
+            var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td></tr>";
+            $('#productBody').append(html);
+            selectedPrice= -1;
+          });
+      
       // Script to open and close sidebar
       function w3_open() {
       document.getElementById("mySidebar").style.display = "block";
@@ -383,6 +469,12 @@ html
       function w3_close() {
       document.getElementById("mySidebar").style.display = "none";
       document.getElementById("myOverlay").style.display = "none";
+      }
+      function on() {
+      document.getElementById("overlay").style.display = "block";
+      }
+      function off() {
+      document.getElementById("overlay").style.display = "none";
       }
       document.getElementById("pesinCB").onchange = function() {
         document.getElementById("pesinTF").disabled = !this.checked;

@@ -61,7 +61,6 @@ router.get('/homepage', mid.requiresLogin, function(req, res, next){
       var date = today[3] + today[4] + "/" + today[6] + today[7] + today[8] + today[9];
       targetModel.findOne({"date" : date}).exec(function(err,target){
         announcementModel.find({}).lean().exec(function (err,announcements){
-          console.log(target);
           return res.render('index', {
             title: "Ana Sayfa",
             user: fullname,
@@ -82,7 +81,7 @@ router.get('/getAllAnnouncements', function (req, res, next) {
     }
     return res.send(announcements);
   });
-})
+});
 
 router.post('/createAnnouncement', function(req,res,next) {
   var announcementData = {
