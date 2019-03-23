@@ -424,7 +424,7 @@ html
           data: jQuery.param({id: search}),
           dataType: 'json',
           contentType:"application/json; charset=utf-8"   ,
-          headers: {  'Access-Control-Allow-Origin': 'htt://boschonurlu.herokuapp.com' },                                                                    
+          headers: {  'Access-Control-Allow-Origin': '*' },                                                                    
         })
         .done(function(data) {
           if(data[0] == null) {
