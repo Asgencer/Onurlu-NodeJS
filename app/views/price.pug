@@ -423,7 +423,10 @@ html
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
-          contentType:"application/json; charset=utf-8"                                                                         
+          contentType:"application/json; charset=utf-8",
+             headers: {
+               "cache-control" : "no-cache"
+             }                                                                                                                       
         })
         .done(function(data) {
           if(data[0] == null) {

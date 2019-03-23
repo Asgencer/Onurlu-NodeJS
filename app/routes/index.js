@@ -7,7 +7,7 @@ var registeredUser = require('../modals/user');
 var targetModel = require('../modals/target');
 var announcementModel = require('../modals/announcement');
 var stockListModel = require('../modals/stock');
-var db = require('../config/db')
+var db = require('../config/db');
 
 function createDate() {
   var today = new Date();
@@ -38,12 +38,12 @@ router.get('/getStocks', mid.requiresLogin, function(req, res, next) {
           '$regex' : regexValue,
           '$options' : 'i' 
         }
-      }
+      };
       stockListModel.find(queryOptions, function(err, data) {
         if(err){            
           console.log(err);
         }
-        var stringify = JSON.stringify(data)
+        var stringify = JSON.stringify(data);
         console.log(data);
     
         return res.json(data);
