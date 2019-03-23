@@ -26,6 +26,8 @@ function createDate() {
 }
 
 router.get('/getStocks', mid.requiresLogin, function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   registeredUser.findById(req.session.userId)
     .exec(function (error, user){
       if(error){

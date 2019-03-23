@@ -423,13 +423,7 @@ html
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
-          contentType:"application/json; charset=utf-8",
-          timeout: 15000,
-          cache: false,
-          async: true,
-          headers: {
-            "Access-Control-Allow-Origin": "http://boschonurlu.herokuapp.com"
-          }                                                                         
+          contentType:"application/json; charset=utf-8"                                                                       
         })
         .done(function(data) {
           if(data[0] == null) {
