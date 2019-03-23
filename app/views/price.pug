@@ -423,6 +423,8 @@ html
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
+          cache: false,
+          async: true,
           contentType:"application/json; charset=utf-8",
              headers: {
                "cache-control" : "no-cache"
