@@ -425,10 +425,10 @@ html
           dataType: 'json',
           cache: false,
           async: true,
-          contentType:"application/json; charset=utf-8",
-             headers: {
-               "cache-control" : "no-cache"
-             }                                                                                                                       
+          contentType:false,
+          headers: {
+              "cache-control": "no-cache"
+            }                                                                                                                   
         })
         .done(function(data) {
           if(data[0] == null) {
