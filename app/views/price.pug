@@ -424,9 +424,7 @@ html
           data: jQuery.param({id: search}),
           dataType: 'json',
           async: true,
-          contentType:false,
-          cache: false,
-	        headers: {"cache-control": "no-cache"}                                                                                                       
+          contentType:false                                                                                                      
         })
         .done(function(data) {
           if(data[0] == null) {
