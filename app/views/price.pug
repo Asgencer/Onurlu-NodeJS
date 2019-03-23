@@ -423,8 +423,7 @@ html
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
-          contentType:"application/json; charset=utf-8"   ,
-          headers: {  'Access-Control-Allow-Origin': '*' },                                                                    
+          contentType:"application/json; charset=utf-8"                                                                   
         })
         .done(function(data) {
           if(data[0] == null) {
