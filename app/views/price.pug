@@ -458,6 +458,7 @@ html
             $('#productBody').append(html);
             selectedPrice= -1;
       });
+      
       // Script to open and close sidebar
       function w3_open() {
       document.getElementById("mySidebar").style.display = "block";
@@ -499,7 +500,6 @@ html
         });
       }
       $(document).ready(function(){
-				$.ajaxSetup({ cache: false });
         $('.price').each(function() {
           calculateSum();
         });
