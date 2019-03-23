@@ -423,11 +423,8 @@ html
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
-          async: true,
-        	contentType:false,
-        	cache: false,
-	      	headers:{"cache-control": "no-cache"}
-				})
+          contentType:"application/json; charset=utf-8"                                                                         
+        })
         .done(function(data) {
           if(data[0] == null) {
             $('#alertTable').append("<tr><td colspan = 12>Ürün Bulunamadı</td></tr>")
@@ -460,7 +457,10 @@ html
             var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td></tr>";
             $('#productBody').append(html);
             selectedPrice= -1;
-          });
+      });
+			$(document).ready(function(){
+				$.ajaxSetup({ cache: false });
+			});
       
       // Script to open and close sidebar
       function w3_open() {
