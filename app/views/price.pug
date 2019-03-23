@@ -441,15 +441,13 @@ html
             var myRow = $("#table tr").index($tr);
             selectedPrice = data[myRow-1].basePrice
           });
-          
-          $("#loading").hide();
-          $('#alert').show();
         })
         .fail(function(request,status,error) {
           $("code").text("get failed: "+error).css("color","red");
         })
-        .always(function() {
-          console.log("finished")
+        .always(function() {          
+          $("#loading").hide();
+          $('#alert').show();
         })
       });
       $('.ok').on('click', function(e){
