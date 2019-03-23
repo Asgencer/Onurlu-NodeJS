@@ -419,11 +419,12 @@ html
         var search =  $('#productCode').val();
         console.log(search);
         $.ajax({
-          url: 'http://localhost:4000/getStocks',
+          url: 'http://boschonurlu.herokuapp/getStocks',
           type: 'get',
           data: jQuery.param({id: search}),
           dataType: 'json',
-          contentType:"application/json; charset=utf-8"                                                                       
+          contentType:"application/json; charset=utf-8"   ,
+          headers: {  'Access-Control-Allow-Origin': 'htt://boschonurlu.herokuapp.com' },                                                                    
         })
         .done(function(data) {
           if(data[0] == null) {
