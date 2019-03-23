@@ -500,6 +500,7 @@ html
         });
       }
       $(document).ready(function(){
+				$.ajaxSetup({cache: false});
         $('.price').each(function() {
           calculateSum();
         });
