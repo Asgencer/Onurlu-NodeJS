@@ -151,7 +151,7 @@ html
                 th(colspan="5") Ürün Kodu
                 th(colspan="5") Ürün Tipi
                 th(colspan="1") Tutar
-                th(colspan="1") İndirim Sonrası Tutar
+                th(colspan="2") İndirim Sonrası Tutar
             tbody#productBody
       .w3-section.w3-bottombar.w3-padding-16
       .w3-container.w3-row
@@ -459,7 +459,7 @@ html
             if(selectedPrice == -1){
               return;
             }
-            var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td><td colspan = 1><button class='w3-button w3-red'>x</button></td></tr>";
+            var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td><td colspan = 1><button class='w3-button w3-red test' name='delete'>x</button></td></tr>";
             $('#productBody').append(html);
             selectedPrice= -1;
       });
@@ -509,5 +509,8 @@ html
         $('.price').each(function() {
           calculateSum();
         });
+      });
+      $(".test").live('click', function (){
+        alert("you clicked");
       });
       
