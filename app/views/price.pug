@@ -426,6 +426,7 @@ html
           contentType:"application/json; charset=utf-8",
           headers: {
            "cache-control" : "no-cache",
+           //also this didn't work
            "Access-Control-Allow-Origin" : "*"
           }                                                                 
         })
@@ -458,7 +459,7 @@ html
             if(selectedPrice == -1){
               return;
             }
-            var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td></tr>";
+            var html = "<tr>" + $("#table tr.selected").html() + "<td colspan = 1 class = 'coloured'><b>₺ "+selectedPrice+"</b></td><td colspan = 1><button class='w3-button w3-red'>x</button></td></tr>";
             $('#productBody').append(html);
             selectedPrice= -1;
       });
